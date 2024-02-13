@@ -418,7 +418,10 @@ FILE=$(basename $URL)
 msg_ok "Downloaded ${CL}${BL}haos_ova-${BRANCH}.qcow2.xz${CL}"
 msg_info "Extracting KVM Disk Image"
 unxz $FILE
-qemu-img resize ${FILE%.*} --shrink -20G
+qemu-img create -f qcow2 -o preallocation=metadata newimage.qcow2 12G
+mv ${FILE%.qcow2} oldimage.qcow2
+virt-resize oldimage.qcow2 newimage.qcow2
+mv newimage.qcow2 ${FILE%.qcow2}
 STORAGE_TYPE=$(pvesm status -storage $STORAGE | awk 'NR>1 {print $2}')
 case $STORAGE_TYPE in
 nfs | dir)
