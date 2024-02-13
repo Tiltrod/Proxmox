@@ -418,7 +418,8 @@ FILE=$(basename $URL)
 msg_ok "Downloaded ${CL}${BL}haos_ova-${BRANCH}.qcow2.xz${CL}"
 msg_info "Extracting KVM Disk Image"
 unxz $FILE
-qemu-img create -f qcow2 -o preallocation=metadata newimage.qcow2 12G
+DISK_RESIZE="4G"
+qemu-img create -f qcow2 -o preallocation=metadata newimage.qcow2 $DISK_RESIZE
 mv ${FILE%.xz} oldimage.qcow2
 virt-resize oldimage.qcow2 newimage.qcow2
 mv newimage.qcow2 ${FILE%.xz}
@@ -451,7 +452,7 @@ pvesm alloc $STORAGE $VMID $DISK0 4M 1>&/dev/null
 qm importdisk $VMID ${FILE%.*} $STORAGE ${DISK_IMPORT:-} 1>&/dev/null
 qm set $VMID \
   -efidisk0 ${DISK0_REF}${FORMAT} \
-  -scsi0 ${DISK1_REF},${DISK_CACHE}${THIN}size=12G \
+  -scsi0 ${DISK1_REF},${DISK_CACHE}${THIN}size=$DISK_RESIZE \
   -boot order=scsi0 \
   -description "<div align='center'><a href='https://Helper-Scripts.com' target='_blank' rel='noopener noreferrer'><img src='https://raw.githubusercontent.com/tteck/Proxmox/main/misc/images/logo-81x112.png'/></a>
 
