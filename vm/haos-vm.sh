@@ -418,6 +418,7 @@ FILE=$(basename $URL)
 msg_ok "Downloaded ${CL}${BL}haos_ova-${BRANCH}.qcow2.xz${CL}"
 msg_info "Extracting KVM Disk Image"
 unxz $FILE
+qemu-img resize ${FILE%.*} --shrink -20G
 STORAGE_TYPE=$(pvesm status -storage $STORAGE | awk 'NR>1 {print $2}')
 case $STORAGE_TYPE in
 nfs | dir)
