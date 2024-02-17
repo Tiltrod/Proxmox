@@ -19,7 +19,7 @@ EOF
 header_info
 echo -e "Loading..."
 APP="Home Assistant"
-var_disk="16"
+var_disk="12"
 var_cpu="2"
 var_ram="2048"
 var_os="debian"
