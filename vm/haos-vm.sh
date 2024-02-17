@@ -418,7 +418,7 @@ FILE=$(basename $URL)
 msg_ok "Downloaded ${CL}${BL}haos_ova-${BRANCH}.qcow2.xz${CL}"
 msg_info "Extracting KVM Disk Image"
 unxz $FILE
-DISK_RESIZE="4G"
+DISK_RESIZE="12G"
 qemu-img create -f qcow2 -o preallocation=metadata newimage.qcow2 $DISK_RESIZE
 mv ${FILE%.xz} oldimage.qcow2
 virt-resize oldimage.qcow2 newimage.qcow2
